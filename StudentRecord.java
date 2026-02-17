@@ -10,27 +10,51 @@ public class StudentRecord {
         int n = sc.nextInt();
         sc.nextLine();
 
-        Student[] sts = new Student[n];
+        List<Student> students = new ArrayList<>();
 
+        Map<String, ArrayList<Student>> deptWise = new HashMap<>();
+
+        String name="";
+        int age=0;
+        String dpt="";
 
         for(int i=0;i<n;i++){
-            System.out.print("Enter student name :");
-            String name = sc.nextLine();
+            try{
+                System.out.print("Enter student name :");
+                name = sc.nextLine();
 
-            System.out.print("\nEnter student age : ");
-            int age = sc.nextInt();
-            sc.nextLine();
-            
+                System.out.print("\nEnter student age : ");
+                age = sc.nextInt();
+                sc.nextLine();
+                
 
-            System.out.print("\nEnter student dpt : ");
-            String dpt = sc.nextLine();
+                System.out.print("\nEnter student dpt : ");
+                dpt = sc.nextLine();
+            }
+            catch (InputMismatchException e){
+                System.out.println("Enter Valid Details");
 
-            sts[i] = new Student(name, age, dpt );
+            }
 
+            Student s = new Student(name, age, dpt);
+
+            students.add(s);
+
+            deptWise.computeIfAbsent(dpt,k ->  new ArrayList<>()).add(s);
+    
+        }
+
+        for(String dept : deptWise.keySet()){
+            System.out.println("\n == "+dept+" == ");
+            for(Student st : deptWise.get(dept)){
+                System.out.println(
+                    "Name : "+st.getName()
+                );
+            }
         }
 
         for(int i=0;i<n;i++){
-            sts[i].display();
+            students.get(i).display();
         }
     }
 
